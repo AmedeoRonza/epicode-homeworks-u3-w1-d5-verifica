@@ -1,4 +1,5 @@
-import React from "react";import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { a, Navbar, Nav, Container } from "react-bootstrap";
 import netflixLogo from "../assets/logo.png";

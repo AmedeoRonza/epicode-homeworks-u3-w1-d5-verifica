@@ -1,30 +1,31 @@
 import React from "react";
-
 class Gallery extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			trendingMovies: [],
-			watchAgainMovies: [],
-			newReleasesMovies: [],
+			batmanMovies: [],
+			harryPotterMovies: [],
+			starTrekMovies: [],
 		};
 	}
 
 	componentDidMount() {
-		this.fetchMovies("trending", "Trending Now");
-		this.fetchMovies("watchAgain", "Watch it Again");
-		this.fetchMovies("newReleases", "New Releases");
+		this.fetchMovies("Batman", "batmanMovies");
+		this.fetchMovies("Harry Potter", "harryPotterMovies");
+		this.fetchMovies("Star Trek", "starTrekMovies");
 	}
 
-	async fetchMovies(endpoint, category) {
+	async fetchMovies(title, stateKey) {
 		try {
-			const response = await fetch(`http://www.omdbapi.com/?s=${endpoint}&apikey=456e0c77`);
+			const response = await fetch(
+				`http://www.omdbapi.com/?s=${title}&apikey=456e0c77&type=movie&page=1&plot=short`
+			);
 			const data = await response.json();
 			this.setState((prevState) => ({
-				[`${endpoint}Movies`]: data.Search || [],
+				[stateKey]: data.Search.slice(0, 6) || [],
 			}));
 		} catch (error) {
-			console.error(`Errore nella fetch per ${category}:`, error);
+			console.error(`Errore nella fetch per ${title}:`, error);
 		}
 	}
 
@@ -39,17 +40,17 @@ class Gallery extends React.Component {
 	render() {
 		return (
 			<div>
-				<h4>Trending Now</h4>
+				<h4>Batman Movies</h4>
 				<div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-6 mb-4">
-					{this.renderMovies(this.state.trendingMovies)}
+					{this.renderMovies(this.state.batmanMovies)}
 				</div>
-				<h4>Watch it Again</h4>
+				<h4>Harry Potter Movies</h4>
 				<div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-6 mb-4">
-					{this.renderMovies(this.state.watchAgainMovies)}
+					{this.renderMovies(this.state.harryPotterMovies)}
 				</div>
-				<h4>New Releases</h4>
+				<h4>Star Trek Movies</h4>
 				<div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-6 mb-4">
-					{this.renderMovies(this.state.newReleasesMovies)}
+					{this.renderMovies(this.state.starTrekMovies)}
 				</div>
 			</div>
 		);
